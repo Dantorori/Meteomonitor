@@ -10,13 +10,13 @@ interface TableComponentProps<T> {
 export const TableComponent = <T,>({ table }: TableComponentProps<T>) => {
 
   return (
-    <div>
-      <table>
-        <thead>
+    <div className=''>
+      <table className='w-full text-left'>
+        <thead className='border-b-2 border-neutral-200 bg-neutral-100 text-neutral-700'>
           {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
+            <tr key={headerGroup.id} className=''>
               {headerGroup.headers.map(header => (
-                <th key={header.id} colSpan={header.colSpan} className='p-3'>
+                <th key={header.id} colSpan={header.colSpan} className='py-3 first:pl-3'>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -30,9 +30,9 @@ export const TableComponent = <T,>({ table }: TableComponentProps<T>) => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
+            <tr key={row.id} className='border-b-2 odd:bg-white even:bg-neutral-50 hover:bg-neutral-100'>
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className='p-3 text-center'>
+                <td key={cell.id} className='py-2 first:pl-3'>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

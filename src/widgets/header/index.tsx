@@ -20,13 +20,13 @@ const options = [
 
 export default function Header() {
   return (
-    <div className="flex gap-5 border-b bg-neutral-200">
+    <div className="flex gap-5 border-b bg-neutral-700 text-white">
       {options.map((option)=>{
         return(
           <Link 
           {...option}
           key={option.to}
-          className="[&.active]:font-bold p-3 hover:bg-neutral-300"
+          className="[&.active]:font-bold p-3 hover:bg-neutral-200 hover:text-black"
           >{option.label}</Link>
         )
       })}

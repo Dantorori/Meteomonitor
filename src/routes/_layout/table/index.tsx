@@ -3,6 +3,7 @@ import { TableComponent } from '../../../widgets/table'
 import { useState } from 'react'
 import { meteoReport } from '../../../shared/types/report'
 import { ColumnFiltersState, createColumnHelper, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
+import AccidentCell from '../../../widgets/table/ui/AccidentCell'
 
 export const Route = createFileRoute('/_layout/table/')({
   component: TablePage,
@@ -10,7 +11,7 @@ export const Route = createFileRoute('/_layout/table/')({
 
 const reportData:meteoReport[] = [
   {
-    id: "asdfwer",
+    id: "143",
     name: "500Кв Бал. АЭС - Куйб #1",
     date: "24-10-2018 22:23",
     accident: 73,
@@ -22,7 +23,7 @@ const reportData:meteoReport[] = [
     door:true
   },
   {
-    id: "asdfwer",
+    id: "23",
     name: "500Кв Бал. АЭС - Куйб #2",
     date: "24-10-2018 22:23",
     accident: 63,
@@ -34,7 +35,7 @@ const reportData:meteoReport[] = [
     door:false
   },
   {
-    id: "asdfwer",
+    id: "7",
     name: "500Кв Бал. АЭС - Куйб #1",
     date: "24-10-2018 22:23",
     accident: 73,
@@ -46,10 +47,46 @@ const reportData:meteoReport[] = [
     door:true
   },
   {
-    id: "asdfwer",
+    id: "8",
+    name: "500Кв Бал. АЭС - Куйб #2",
+    date: "24-10-2018 22:23",
+    accident: 10,
+    icing: 45.2,
+    windForce:5.0,
+    batteryCharge:12.8,
+    temp:8,
+    humidity: 84,
+    door:false
+  },
+  {
+    id: "10",
+    name: "500Кв Бал. АЭС - Куйб #2",
+    date: "24-10-2018 22:23",
+    accident: 58,
+    icing: 45.2,
+    windForce:5.0,
+    batteryCharge:12.8,
+    temp:8,
+    humidity: 84,
+    door:false
+  },
+  {
+    id: "4",
     name: "500Кв Бал. АЭС - Куйб #2",
     date: "24-10-2018 22:23",
     accident: 73,
+    icing: 45.2,
+    windForce:5.0,
+    batteryCharge:12.8,
+    temp:8,
+    humidity: 84,
+    door:false
+  },
+  {
+    id: "15",
+    name: "500Кв Бал. АЭС - Куйб #2",
+    date: "24-10-2018 22:23",
+    accident: 20,
     icing: 45.2,
     windForce:5.0,
     batteryCharge:12.8,
@@ -62,6 +99,9 @@ const reportData:meteoReport[] = [
 const columnHelper = createColumnHelper<meteoReport>()
 
 const columns = [
+  columnHelper.accessor('id',{
+    header: "ID"
+  }),
   columnHelper.accessor('name',{
     header:"Наименование линии"
   }),
@@ -70,40 +110,8 @@ const columns = [
   }),
   columnHelper.accessor('accident',{
     header:"Вероятность Аварии",
-    cell: (info)=>{return(
-      <span>{info.getValue()}%</span>
-    )}
+    cell: (info)=><AccidentCell accidentProp={info.getValue()}/>
   }),
-  columnHelper.accessor('icing',{
-    header:"Гололёд",
-    cell: (info)=>{return(
-      <span>{info.getValue()}кг</span>
-    )}
-  }),
-  columnHelper.accessor('windForce',{
-    header:'Сила ветра',
-    cell: (info)=>{return(
-      <span>{info.getValue()}м/с</span>
-    )}
-  }),
-  columnHelper.accessor('batteryCharge',{
-    header:"Заряд АКБ",
-    cell: (info)=>{return(
-      <span>{info.getValue()}V</span>
-    )}
-  }),
-  columnHelper.accessor('humidity',{
-    header:"Влажность",
-    cell: (info)=>{return(
-      <span>{info.getValue()}%</span>
-    )}
-  }),
-  columnHelper.accessor('door',{
-    header:'Дверца',
-    cell: (info)=>{return(
-      <span>{info.getValue()?"Открыта":"Закрыта"}</span>
-    )}
-  })
 ]
 
 function TablePage(){
