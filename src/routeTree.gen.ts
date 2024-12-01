@@ -15,6 +15,7 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTableIndexImport } from './routes/_layout/table/index'
 import { Route as LayoutChartIndexImport } from './routes/_layout/chart/index'
+import { Route as LayoutTableTableIdImport } from './routes/_layout/table/$tableId'
 
 // Create/Update Routes
 
@@ -41,6 +42,12 @@ const LayoutChartIndexRoute = LayoutChartIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutTableTableIdRoute = LayoutTableTableIdImport.update({
+  id: '/table/$tableId',
+  path: '/table/$tableId',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -57,6 +64,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/table/$tableId': {
+      id: '/_layout/table/$tableId'
+      path: '/table/$tableId'
+      fullPath: '/table/$tableId'
+      preLoaderRoute: typeof LayoutTableTableIdImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/chart/': {
@@ -80,12 +94,14 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutTableTableIdRoute: typeof LayoutTableTableIdRoute
   LayoutChartIndexRoute: typeof LayoutChartIndexRoute
   LayoutTableIndexRoute: typeof LayoutTableIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutTableTableIdRoute: LayoutTableTableIdRoute,
   LayoutChartIndexRoute: LayoutChartIndexRoute,
   LayoutTableIndexRoute: LayoutTableIndexRoute,
 }
@@ -96,12 +112,14 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/': typeof LayoutIndexRoute
+  '/table/$tableId': typeof LayoutTableTableIdRoute
   '/chart': typeof LayoutChartIndexRoute
   '/table': typeof LayoutTableIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
+  '/table/$tableId': typeof LayoutTableTableIdRoute
   '/chart': typeof LayoutChartIndexRoute
   '/table': typeof LayoutTableIndexRoute
 }
@@ -110,19 +128,21 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/': typeof LayoutIndexRoute
+  '/_layout/table/$tableId': typeof LayoutTableTableIdRoute
   '/_layout/chart/': typeof LayoutChartIndexRoute
   '/_layout/table/': typeof LayoutTableIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/' | '/chart' | '/table'
+  fullPaths: '' | '/' | '/table/$tableId' | '/chart' | '/table'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chart' | '/table'
+  to: '/' | '/table/$tableId' | '/chart' | '/table'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/'
+    | '/_layout/table/$tableId'
     | '/_layout/chart/'
     | '/_layout/table/'
   fileRoutesById: FileRoutesById
@@ -155,12 +175,17 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/",
+        "/_layout/table/$tableId",
         "/_layout/chart/",
         "/_layout/table/"
       ]
     },
     "/_layout/": {
       "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/table/$tableId": {
+      "filePath": "_layout/table/$tableId.tsx",
       "parent": "/_layout"
     },
     "/_layout/chart/": {

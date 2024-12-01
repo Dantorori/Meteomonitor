@@ -12,8 +12,8 @@ import {
 } from "@tanstack/react-table";
 import AccidentCell from "../../../widgets/table/ui/AccidentCell";
 
-export const Route = createFileRoute("/_layout/table/")({
-  component: TablePage,
+export const Route = createFileRoute("/_layout/table/$tableId")({
+  component: TableId,
 });
 
 const columnHelper = createColumnHelper<meteoReport>();
@@ -34,18 +34,19 @@ const columns = [
   }),
 ];
 
-function TablePage() {
+function TableId() {
   const [data, setData] = useState<meteoReport[]>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const { tableId } = Route.useParams();
   useEffect(() => {
-    fetch("http://meteomonitoring.ru:8080/pole_prediction/1")
+    fetch(`http://meteomonitoring.ru:8080/pole_prediction/${tableId}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         setData(data.data);
       });
-  }, []);
+  }, [tableId]);
 
   const table = useReactTable({
     data,
